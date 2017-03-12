@@ -10,6 +10,8 @@ export default class TodoDetails extends Component{
 			completed: this.props.todo.completed
 		}
 		this.onEdit = this.onEdit.bind(this);
+		this.onDelete = this.onDelete.bind(this);
+		this.onShare = this.onShare.bind(this);
 	}
 
 	onEdit(){
@@ -26,10 +28,30 @@ export default class TodoDetails extends Component{
 
 	}
 	onDelete(){
+		AsyncStorage.getItem('todos').then((value) => {
+			let todos = JSON.parse(value);
 
+			todos.forEach((todo, index) => {
+				if(todo.id == this.state.id) {
+					todos.splice(index,1);
+				}
+			});
+
+			AsyncStorage.setItem('todos', JSON.stringify(todos));
+
+			this.props.navigator.push({id: 'todos'});
+		});
 	}
 	onShare(){
-
+		Share.share({
+			message: this.state.text
+		})
+		.then(() => {
+			this.props.navigator.push({
+				id: 'todos'
+			});
+		})
+		.catch((error) => console.log(error));
 	}
 
 	render(){

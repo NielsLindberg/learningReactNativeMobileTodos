@@ -23,16 +23,26 @@ export default class EditForm extends Component{
 	}
 
 	onSubmit(){
-		let todos = this.state.todos;
 
-		todos.push({
-			id: this.state.id,
-			text: this.state.text,
-			completed: this.state.completed});
+		AsyncStorage.getItem('todos').then((value) => {
+			let todos = JSON.parse(value);
 
-		AsyncStorage.setItem('todos', JSON.stringify(todos));
+			todos.forEach((todo, index) => {
+				if(todo.id == this.state.id) {
+					todos.splice(index,1);
+				}
+			});
 
-		this.props.navigator.push({id: 'todos'});
+			todos.push({
+				id: this.state.id,
+				text: this.state.text,
+				completed: this.state.completed});
+
+			AsyncStorage.setItem('todos', JSON.stringify(todos));
+
+			this.props.navigator.push({id: 'todos'});
+
+		});
 	}
 
 
