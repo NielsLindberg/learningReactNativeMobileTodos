@@ -3,6 +3,10 @@ import {AppRegistry, Text, View, Navigator, StyleSheet, Dimensions} from 'react-
 
 import Todos from './app/components/Todos/Todos';
 import AndroidToolbar from './app/components/AndroidToolbar/AndroidToolbar';
+import AddButton from './app/components/AddButton/AddButton';
+import AddForm from './app/components/AddForm/AddForm';
+import TodoDetails from './app/components/TodoDetails/TodoDetails';
+
 
 export default class mobiletodos extends Component{
   constructor(){
@@ -16,7 +20,22 @@ export default class mobiletodos extends Component{
         return (
           <View style={styles.screen}>
             <AndroidToolbar />
+            <AddButton navigator={navigator} />
             <Todos navigator={navigator} title='todos'/>
+          </View>
+        )
+      case 'add':
+        return(
+         <View style={styles.screen}>
+            <AndroidToolbar title='Add Todo'/>
+            <AddForm navigator={navigator} title='add'/>
+          </View>
+        )
+      case 'details':
+        return(
+         <View style={styles.screen}>
+            <AndroidToolbar title={route.todo.text}/>
+            <TodoDetails navigator={navigator} todo={route.todo} title='details'/>
           </View>
         )
     }
