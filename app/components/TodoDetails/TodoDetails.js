@@ -2,14 +2,27 @@ import React, {Component} from 'react';
 import {AppRegistry, Text, View, TouchableHighlight, Share, AsyncStorage, StyleSheet} from 'react-native';
 
 export default class TodoDetails extends Component{
-	constructor(){
-		super();
+	constructor(props){
+		super(props);
 		this.state = {
+			id: this.props.todo.id,
+			text: this.props.todo.text,
+			completed: this.props.todo.completed
 		}
 		this.onEdit = this.onEdit.bind(this);
 	}
 
 	onEdit(){
+		let todo = {
+			id: this.state.id,
+			text: this.state.text,
+			completed:  this.state.completed
+		}
+
+		this.props.navigator.push({
+			id: 'edit',
+			todo: todo
+		});
 
 	}
 	onDelete(){

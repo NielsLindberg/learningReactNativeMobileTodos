@@ -6,6 +6,7 @@ import AndroidToolbar from './app/components/AndroidToolbar/AndroidToolbar';
 import AddButton from './app/components/AddButton/AddButton';
 import AddForm from './app/components/AddForm/AddForm';
 import TodoDetails from './app/components/TodoDetails/TodoDetails';
+import EditForm from './app/components/EditForm/EditForm';
 
 
 export default class mobiletodos extends Component{
@@ -36,6 +37,13 @@ export default class mobiletodos extends Component{
          <View style={styles.screen}>
             <AndroidToolbar title={route.todo.text}/>
             <TodoDetails navigator={navigator} todo={route.todo} title='details'/>
+          </View>
+        )
+      case 'edit':
+        return(
+         <View style={styles.screen}>
+            <AndroidToolbar title='Edit Todo'/>
+            <EditForm navigator={navigator} todo={route.todo} title='edit'/>
           </View>
         )
     }
