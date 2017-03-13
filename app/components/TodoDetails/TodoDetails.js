@@ -1,6 +1,15 @@
 import React, {Component} from 'react';
 import {AppRegistry, Text, View, TouchableHighlight, Share, AsyncStorage, StyleSheet} from 'react-native';
 
+import * as firebase from 'firebase';
+
+firebase.initializeApp({
+    apiKey: "AIzaSyBTGL-WIiO6LyES2tT53Xy8WQkKjUo3_fw",
+    authDomain: "mobiletodos.firebaseapp.com",
+    databaseURL: "https://mobiletodos.firebaseio.com",
+    storageBucket: "mobiletodos.appspot.com"
+});
+
 export default class TodoDetails extends Component{
 	constructor(props){
 		super(props);
