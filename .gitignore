@@ -6,6 +6,13 @@
 #
 app/modules/FireBaseApp/
 
+## Keystore
+# 
+android/app/my-release-key.keystore
+
+## GradleProps
+android/gradle.properties
+
 # Xcode
 #
 build/
