@@ -14,11 +14,7 @@ export default class AddForm extends Component{
 		this.onCompletedChange = this.onCompletedChange.bind(this);
 
 		this.itemsRef = FireBaseApp.database().ref();
-	}
-
-	generateId(){
-		let id = Math.floor(Math.random() * 1000000000);
-		this.setState({id});
+		this.userRef = this.itemsRef.child("users/" + FireBaseApp.auth().currentUser.uid);
 	}
 
 	onTextChange(text){
@@ -30,15 +26,11 @@ export default class AddForm extends Component{
 	}
 
 	onSubmit(){
-		this.itemsRef.push({
+		this.userRef.push({
 			text: this.state.text,
 			completed: this.state.completed});
 
 		this.props.navigator.push({id: 'todos'});
-	}
-
-	componentDidMount(){
-		this.generateId();
 	}
 
 	render(){

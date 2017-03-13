@@ -8,16 +8,16 @@ export default class Todos extends Component{
 		const ds = new ListView.DataSource({
 			rowHasChanged: (r1, r2) => r1 !== r2});
 		this.state = {
-			todoDataSource: ds
+			todoDataSource: ds,
 		}
 		this.pressRow = this.pressRow.bind(this);
 		this.renderRow = this.renderRow.bind(this);
 
 		this.itemsRef = FireBaseApp.database().ref();
+		this.userRef = this.itemsRef.child("users/" + FireBaseApp.auth().currentUser.uid);
 	}
-
 	getTodos(){
-		this.itemsRef.on('value', (snap) => {
+		this.userRef.on('value', (snap) => {
 
       // get children as an array
       var items = [];

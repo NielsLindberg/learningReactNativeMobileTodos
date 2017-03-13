@@ -7,6 +7,7 @@ import AddButton from './app/components/AddButton/AddButton';
 import AddForm from './app/components/AddForm/AddForm';
 import TodoDetails from './app/components/TodoDetails/TodoDetails';
 import EditForm from './app/components/EditForm/EditForm';
+import Login from './app/components/Login/Login';
 
 export default class mobiletodos extends Component{
   constructor(props){
@@ -16,6 +17,14 @@ export default class mobiletodos extends Component{
   }
   renderScene(route, navigator){
     switch(route.id){
+      case 'login':
+        return (
+          <View style={styles.screen}>
+            <AndroidToolbar />
+            <AddButton navigator={navigator} />
+            <Login navigator={navigator} title='login'/>
+          </View>
+        )
       case 'todos':
         return (
           <View style={styles.screen}>
@@ -50,7 +59,7 @@ export default class mobiletodos extends Component{
   render(){
     return(
       <Navigator
-        initialRoute={{id: 'todos'}}
+        initialRoute={{id: 'login'}}
         renderScene={this.renderScene}
         configureScene={(route, routeStack) => Navigator.SceneConfigs.FloatFromBottom}
       />

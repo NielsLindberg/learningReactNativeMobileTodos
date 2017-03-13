@@ -15,6 +15,7 @@ export default class EditForm extends Component{
 		this.onCompletedChange = this.onCompletedChange.bind(this);
 
 		this.itemsRef = FireBaseApp.database().ref();
+		this.userRef = this.itemsRef.child("users/" + FireBaseApp.auth().currentUser.uid);
 	}
 
 	onTextChange(text){
@@ -26,7 +27,7 @@ export default class EditForm extends Component{
 	}
 
 	onSubmit(){
-			this.itemsRef.child(this.state.id).update({text: this.state.text, completed: this.state.completed});
+			this.userRef.child(this.state.id).update({text: this.state.text, completed: this.state.completed});
 			this.props.navigator.push({id: 'todos'});
 	}
 

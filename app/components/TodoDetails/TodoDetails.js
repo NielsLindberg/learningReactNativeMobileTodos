@@ -15,6 +15,7 @@ export default class TodoDetails extends Component{
 		this.onShare = this.onShare.bind(this);
 
 		this.itemsRef = FireBaseApp.database().ref();
+		this.userRef = this.itemsRef.child("users/" + FireBaseApp.auth().currentUser.uid);
 	}
 
 	onEdit(){
@@ -31,7 +32,7 @@ export default class TodoDetails extends Component{
 
 	}
 	onDelete(){
-			this.itemsRef.child(this.state.id).remove();
+			this.userRef.child(this.state.id).remove();
 			this.props.navigator.push({id: 'todos'});
 	}
 	onShare(){
