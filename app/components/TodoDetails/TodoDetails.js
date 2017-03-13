@@ -1,14 +1,6 @@
 import React, {Component} from 'react';
-import {AppRegistry, Text, View, TouchableHighlight, Share, AsyncStorage, StyleSheet} from 'react-native';
-
-import * as firebase from 'firebase';
-
-firebase.initializeApp({
-    apiKey: "AIzaSyBTGL-WIiO6LyES2tT53Xy8WQkKjUo3_fw",
-    authDomain: "mobiletodos.firebaseapp.com",
-    databaseURL: "https://mobiletodos.firebaseio.com",
-    storageBucket: "mobiletodos.appspot.com"
-});
+import {AppRegistry, Text, View, TouchableHighlight, Share, StyleSheet} from 'react-native';
+import FireBaseApp from '../../modules/FireBaseApp/FireBaseApp';
 
 export default class TodoDetails extends Component{
 	constructor(props){
@@ -21,6 +13,8 @@ export default class TodoDetails extends Component{
 		this.onEdit = this.onEdit.bind(this);
 		this.onDelete = this.onDelete.bind(this);
 		this.onShare = this.onShare.bind(this);
+
+		this.itemsRef = FireBaseApp.database().ref();
 	}
 
 	onEdit(){
@@ -37,19 +31,8 @@ export default class TodoDetails extends Component{
 
 	}
 	onDelete(){
-		AsyncStorage.getItem('todos').then((value) => {
-			let todos = JSON.parse(value);
-
-			todos.forEach((todo, index) => {
-				if(todo.id == this.state.id) {
-					todos.splice(index,1);
-				}
-			});
-
-			AsyncStorage.setItem('todos', JSON.stringify(todos));
-
+			this.itemsRef.child(this.state.id).remove();
 			this.props.navigator.push({id: 'todos'});
-		});
 	}
 	onShare(){
 		Share.share({

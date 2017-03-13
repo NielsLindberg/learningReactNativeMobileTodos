@@ -1,18 +1,19 @@
 import React, {Component} from 'react';
-import {AppRegistry, Text, View, StyleSheet, TextInput, Switch, Button, AsyncStorage} from 'react-native';
+import {AppRegistry, Text, View, StyleSheet, TextInput, Switch, Button} from 'react-native';
+import FireBaseApp from '../../modules/FireBaseApp/FireBaseApp';
 
 export default class AddForm extends Component{
-	constructor(){
-		super();
+	constructor(props){
+		super(props);
 		this.state = {
-			id: '',
 			text: '',
-			completed: false,
-			todos: []
+			completed: false
 		}
 		this.onSubmit = this.onSubmit.bind(this);
 		this.onTextChange = this.onTextChange.bind(this);
 		this.onCompletedChange = this.onCompletedChange.bind(this);
+
+		this.itemsRef = FireBaseApp.database().ref();
 	}
 
 	generateId(){
@@ -29,30 +30,15 @@ export default class AddForm extends Component{
 	}
 
 	onSubmit(){
-		let todos = this.state.todos;
-
-		todos.push({
-			id: this.state.id,
+		this.itemsRef.push({
 			text: this.state.text,
 			completed: this.state.completed});
-
-		AsyncStorage.setItem('todos', JSON.stringify(todos));
 
 		this.props.navigator.push({id: 'todos'});
 	}
 
-	getTodos(){
-		AsyncStorage.getItem('todos')
-		.then((value) => {
-			if(value != undefined) {
-				this.setState({todos: JSON.parse(value)});
-			}
-		});
-	}
-
 	componentDidMount(){
 		this.generateId();
-		this.getTodos();
 	}
 
 	render(){

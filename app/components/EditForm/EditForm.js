@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import {AppRegistry, Text, View, StyleSheet, TextInput, Switch, Button, AsyncStorage} from 'react-native';
+import {AppRegistry, Text, View, StyleSheet, TextInput, Switch, Button} from 'react-native';
+import FireBaseApp from '../../modules/FireBaseApp/FireBaseApp';
 
 export default class EditForm extends Component{
 	constructor(props){
@@ -12,6 +13,8 @@ export default class EditForm extends Component{
 		this.onSubmit = this.onSubmit.bind(this);
 		this.onTextChange = this.onTextChange.bind(this);
 		this.onCompletedChange = this.onCompletedChange.bind(this);
+
+		this.itemsRef = FireBaseApp.database().ref();
 	}
 
 	onTextChange(text){
@@ -23,26 +26,8 @@ export default class EditForm extends Component{
 	}
 
 	onSubmit(){
-
-		AsyncStorage.getItem('todos').then((value) => {
-			let todos = JSON.parse(value);
-
-			todos.forEach((todo, index) => {
-				if(todo.id == this.state.id) {
-					todos.splice(index,1);
-				}
-			});
-
-			todos.push({
-				id: this.state.id,
-				text: this.state.text,
-				completed: this.state.completed});
-
-			AsyncStorage.setItem('todos', JSON.stringify(todos));
-
+			this.itemsRef.child(this.state.id).update({text: this.state.text, completed: this.state.completed});
 			this.props.navigator.push({id: 'todos'});
-
-		});
 	}
 
 

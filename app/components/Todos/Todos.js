@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
-import {AppRegistry, AsyncStorage, Image, Text, View, ListView, TouchableHighlight, StyleSheet} from 'react-native';
+import {AppRegistry, Image, Text, View, ListView, TouchableHighlight, StyleSheet} from 'react-native';
+import FireBaseApp from '../../modules/FireBaseApp/FireBaseApp';
 
 export default class Todos extends Component{
-	constructor(){
-		super();
+	constructor(props){
+		super(props);
 		const ds = new ListView.DataSource({
 			rowHasChanged: (r1, r2) => r1 !== r2});
 		this.state = {
@@ -11,17 +12,27 @@ export default class Todos extends Component{
 		}
 		this.pressRow = this.pressRow.bind(this);
 		this.renderRow = this.renderRow.bind(this);
+
+		this.itemsRef = FireBaseApp.database().ref();
 	}
 
 	getTodos(){
-		AsyncStorage.getItem('todos').then((value) => {
-			if(value !== undefined){
-				let todos = JSON.parse(value);
-				this.setState({
-					todoDataSource: this.state.todoDataSource.cloneWithRows(todos)
+		this.itemsRef.on('value', (snap) => {
+
+      // get children as an array
+      var items = [];
+      snap.forEach((child) => {
+        items.push({
+          completed: child.val().completed,
+          text: child.val().text,
+          id: child.key
+        });
+      });
+
+      this.setState({
+					todoDataSource: this.state.todoDataSource.cloneWithRows(items)
 				});
-			}
-		});
+    });
 	}
 
 	componentWillMount(){
