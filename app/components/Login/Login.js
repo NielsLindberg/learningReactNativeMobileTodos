@@ -19,7 +19,7 @@ export default class Login extends Component{
 
     try {
         await FireBaseApp.auth().createUserWithEmailAndPassword(this.state.email, this.state.password);
-
+        FireBaseApp.auth().currentUser.sendEmailVerification(); 
         this.setState({
             response: "account created"
         });

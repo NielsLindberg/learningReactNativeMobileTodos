@@ -8,6 +8,7 @@ import AddForm from './app/components/AddForm/AddForm';
 import TodoDetails from './app/components/TodoDetails/TodoDetails';
 import EditForm from './app/components/EditForm/EditForm';
 import Login from './app/components/Login/Login';
+import MapComponent from './app/components/MapComponent/MapComponent';
 
 export default class mobiletodos extends Component{
   constructor(props){
@@ -17,11 +18,17 @@ export default class mobiletodos extends Component{
   }
   renderScene(route, navigator){
     switch(route.id){
+      case 'map':
+        return (
+          <View style={styles.screen}>
+            <AndroidToolbar />
+            <MapComponent navigator={navigator} title='map'/>
+          </View>
+        )
       case 'login':
         return (
           <View style={styles.screen}>
             <AndroidToolbar />
-            <AddButton navigator={navigator} />
             <Login navigator={navigator} title='login'/>
           </View>
         )
